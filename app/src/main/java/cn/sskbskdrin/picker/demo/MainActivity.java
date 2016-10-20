@@ -20,8 +20,11 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mPickerYearView = $(R.id.main_picker_year);
+		mPickerYearView.setUnitText("年");
 		mPickerMonthView = $(R.id.main_picker_month);
+		mPickerMonthView.setUnitText("月");
 		mPickerDayView = $(R.id.main_picker_day);
+		mPickerDayView.setUnitText("日");
 
 		mPickerYearView.setValue(1970, 2100);
 
@@ -41,19 +44,20 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 				if (oldPosition == 11 && newPosition == 0) {
 					mPickerYearView.setCurrentSelect(mPickerYearView.getCurrentSelect() + 1);
 				}
-				Calendar c = new GregorianCalendar(mPickerYearView.getCurrentSelect() + 1970, newPosition + 1, 1);
+
+				Calendar c = new GregorianCalendar(mPickerYearView.getCurrentSelect() + 1970, newPosition, 1);
 				mPickerDayView.setValue(1, c.getActualMaximum(Calendar.DAY_OF_MONTH));
 			}
 		});
 
 		mPickerDayView.setValue(1, 31);
-		mPickerDayView.setCycle(true);
-//		number.setCycle(true);
+//		mPickerDayView.setCycle(true);
+		//		number.setCycle(true);
 	}
 
 	@Override
 	public void onClick(View view) {
-//		mPickerView.setCurrentSelect(5, true);
-//		mPickerView.computeOffset(480);
+		//		mPickerView.setCurrentSelect(5, true);
+		//		mPickerView.computeOffset(480);
 	}
 }

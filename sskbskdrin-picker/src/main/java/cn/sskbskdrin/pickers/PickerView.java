@@ -60,7 +60,7 @@ public class PickerView extends View {
 
 	private boolean isCycle = false;
 
-	private Item mHeaderItem = new Item(0);
+	private Item mHeaderItem = new Item();
 
 	public PickerView(Context context) {
 		this(context, null);
@@ -86,8 +86,7 @@ public class PickerView extends View {
 	}
 
 	public void setDataList(List<?> list) {
-		if (list != null)
-			mDataList = list;
+		if (list != null) mDataList = list;
 	}
 
 	public void setTextColor(int color) {
@@ -105,7 +104,6 @@ public class PickerView extends View {
 	public void setShowCount(int count) {
 		showCount = count;
 		updateItem();
-		postInvalidate();
 	}
 
 	public int getCurrentSelect() {
@@ -131,28 +129,39 @@ public class PickerView extends View {
 	public void setCycle(boolean cycle) {
 		isCycle = cycle;
 		updateItem();
-		postInvalidate();
+	}
+
+	public void setUnitText(String unit) {
+		mUnitText = unit;
+		requestLayout();
+	}
+
+	public void notifyDataSetChange() {
+		if (mHeaderItem.position >= getItemCount()) {
+			mHeaderItem.position = getItemCount() - 1;
+		}
+		updateItem();
 	}
 
 	private void updateItem() {
-		if (!isMeasure)
-			return;
+		if (!isMeasure) return;
+
 		Item item = mHeaderItem;
 		int count = 0;
 		while (count++ < showCount) {
 			if (item.next == null) {
-				item.next = new Item(item.radian + STEP_RADIAN);
+				item.next = new Item();
 				item.next.parent = item;
-				item = item.next;
 			}
+			item = item.next;
 		}
-		if (mHeaderItem.parent == null) {
-			mHeaderItem.parent = item;
-			item.next = mHeaderItem;
-		}
+		mHeaderItem.parent = item;
+		item.next = mHeaderItem;
 		mHeaderItem.refresh(0, mRadius);
 		setCache(mHeaderItem.parent, true, (int) Math.ceil(count / 2.0f));
 		setCache(mHeaderItem.next, false, (int) Math.floor(count / 2.0f));
+
+		postInvalidate();
 	}
 
 	@Override
@@ -235,14 +244,16 @@ public class PickerView extends View {
 					canvas.clipRect(0, mTopLine - 1, mViewWidth, mBottomLine + 1, Region.Op.DIFFERENCE);
 				}
 				canvas.scale(1.0F, (float) item.scale);
-				DrawUtils.drawText(canvas, getItem(item.position), centerX, item.getCenterLine(), DrawUtils.AlignMode.CENTER, mPaintText);
+				DrawUtils.drawText(canvas, getItem(item.position), centerX, item.getCenterLine(), DrawUtils.AlignMode
+						.CENTER, mPaintText);
 				canvas.restore();
 				if (isContain) {
 					canvas.save();
 					canvas.clipRect(0, mTopLine - 1, mViewWidth, mBottomLine + 1);
 					canvas.clipRect(0, item.top, mViewWidth, item.bottom);
 					canvas.scale(1.0F, (float) item.scale);
-					DrawUtils.drawText(canvas, getItem(item.position), centerX, item.getCenterLine(), DrawUtils.AlignMode.CENTER, mPaintCenterText);
+					DrawUtils.drawText(canvas, getItem(item.position), centerX, item.getCenterLine(), DrawUtils
+							.AlignMode.CENTER, mPaintCenterText);
 					canvas.restore();
 				}
 			}
@@ -288,7 +299,6 @@ public class PickerView extends View {
 				mLastScrollY = mScroller.getCurrY();
 			} else {
 				mLastScrollY = 0;
-				Log.d(TAG, "computeScroll end mode=" + mFlag);
 				if (isFling()) {
 					reviseOffset();
 				} else if (isScroll()) {
@@ -319,13 +329,15 @@ public class PickerView extends View {
 		// 如果不循环
 		if (!isCycle && delta != 0) {
 			if (isDown) {
-				double maxDelta = mHeaderItem.position * STEP_SIZE_RADIAN + (STEP_HALF_RADIAN - mHeaderItem.radian) * STEP_SIZE;
+				double maxDelta = mHeaderItem.position * STEP_SIZE_RADIAN + (STEP_HALF_RADIAN - mHeaderItem.radian) *
+						STEP_SIZE;
 				if (delta > maxDelta) {
 					delta = maxDelta;
 					mScroller.abortAnimation();
 				}
 			} else {
-				double maxDelta = (mHeaderItem.position - getItemCount()) * STEP_SIZE_RADIAN + (STEP_HALF_RADIAN - mHeaderItem.radian) * STEP_SIZE;
+				double maxDelta = (mHeaderItem.position - getItemCount()) * STEP_SIZE_RADIAN + (STEP_HALF_RADIAN -
+						mHeaderItem.radian) * STEP_SIZE;
 				if (delta < maxDelta) {
 					delta = maxDelta;
 					mScroller.abortAnimation();
@@ -388,10 +400,6 @@ public class PickerView extends View {
 		}
 	}
 
-	public void notityDataSetChange() {
-
-	}
-
 	protected String getItem(int position) {
 		String result = "";
 		if (position < 0 || position >= getItemCount()) {
@@ -399,18 +407,15 @@ public class PickerView extends View {
 		}
 		if (mDataList.get(position) instanceof IPickerViewData)
 			result = ((IPickerViewData) mDataList.get(position)).getPickerViewText();
-		else
-			result = mDataList.get(position).toString();
+		else result = mDataList.get(position).toString();
 		return result;
 	}
 
 	protected int getPosition(int position) {
 		if (!isCycle) {
-			if (position < 0 || position >= getItemCount())
-				return -2;
+			if (position < 0 || position >= getItemCount()) return -2;
 		}
-		if (getItemCount() == 0)
-			return 0;
+		if (getItemCount() == 0) return 0;
 		return (position + getItemCount()) % getItemCount();
 	}
 
@@ -488,8 +493,7 @@ public class PickerView extends View {
 		float top = 0;
 		float bottom = 0;
 
-		Item(double r) {
-			refresh(r, 0);
+		Item() {
 		}
 
 		/**

@@ -22,13 +22,12 @@ public class PickerNumberView extends PickerView {
 	public void setValue(int max, int min) {
 		mMax = max > min ? max : min;
 		mMin = min < max ? min : max;
-		postInvalidate();
+		notifyDataSetChange();
 	}
 
 	@Override
 	protected String getItem(int position) {
-		if (position < 0)
-			return "";
+		if (position < 0) return "";
 		return (position + mMin) + "";
 	}
 
