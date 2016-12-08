@@ -28,4 +28,8 @@
                                                 android:layout_weight="1"/>
 
     </LinearLayout>
+    <cn.sskbskdrin.pickers.PickerView android:id="@+id/main_picker"
+                                      android:layout_width="match_parent"
+                                      android:layout_height="wrap_content"/>
+
 </LinearLayout>

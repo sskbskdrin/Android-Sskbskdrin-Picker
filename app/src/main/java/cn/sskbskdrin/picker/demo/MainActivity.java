@@ -3,8 +3,10 @@ package cn.sskbskdrin.picker.demo;
 import android.os.Bundle;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import cn.sskbskdrin.base.BaseFragmentActivity;
 import cn.sskbskdrin.pickers.PickerNumberView;
@@ -51,6 +53,14 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 		});
 
 		mPickerDayView.setValue(1, 31);
+
+		PickerView picker = $(R.id.main_picker);
+		List<String> list = new ArrayList<>();
+		for (int i = 'A'; i <= 'Z'; i++) {
+			list.add((char)i+"");
+		}
+		picker.setDataList(list);
+		picker.setCycle(true);
 //		mPickerDayView.setCycle(true);
 		//		number.setCycle(true);
 	}
