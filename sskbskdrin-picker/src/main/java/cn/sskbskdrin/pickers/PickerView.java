@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Region;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
@@ -212,7 +211,6 @@ public class PickerView extends View {
 		mBottomLine = (int) ((Math.sin(STEP_HALF_RADIAN) + 1) * mRadius);
 
 		// 按照View的高度计算字体大小
-		Log.d(TAG, "onMeasure h=" + mViewHeight + " w=" + mViewWidth);
 		isMeasure = true;
 		updateItem();
 		setMeasuredDimension(mViewWidth, mViewHeight);
@@ -245,7 +243,7 @@ public class PickerView extends View {
 				}
 				canvas.scale(1.0F, (float) item.scale);
 				DrawUtils.drawText(canvas, getItem(item.position), centerX, item.getCenterLine(), DrawUtils.AlignMode
-						.CENTER, mPaintText);
+					.CENTER, mPaintText);
 				canvas.restore();
 				if (isContain) {
 					canvas.save();
@@ -253,7 +251,7 @@ public class PickerView extends View {
 					canvas.clipRect(0, item.top, mViewWidth, item.bottom);
 					canvas.scale(1.0F, (float) item.scale);
 					DrawUtils.drawText(canvas, getItem(item.position), centerX, item.getCenterLine(), DrawUtils
-							.AlignMode.CENTER, mPaintCenterText);
+						.AlignMode.CENTER, mPaintCenterText);
 					canvas.restore();
 				}
 			}
@@ -285,7 +283,6 @@ public class PickerView extends View {
 				} else {
 					reviseOffset();
 				}
-				Log.d(TAG, "onTouchEvent: up");
 				break;
 		}
 		return true;
@@ -330,14 +327,14 @@ public class PickerView extends View {
 		if (!isCycle && delta != 0) {
 			if (isDown) {
 				double maxDelta = mHeaderItem.position * STEP_SIZE_RADIAN + (STEP_HALF_RADIAN - mHeaderItem.radian) *
-						STEP_SIZE;
+					STEP_SIZE;
 				if (delta > maxDelta) {
 					delta = maxDelta;
 					mScroller.abortAnimation();
 				}
 			} else {
 				double maxDelta = (mHeaderItem.position - getItemCount()) * STEP_SIZE_RADIAN + (STEP_HALF_RADIAN -
-						mHeaderItem.radian) * STEP_SIZE;
+					mHeaderItem.radian) * STEP_SIZE;
 				if (delta < maxDelta) {
 					delta = maxDelta;
 					mScroller.abortAnimation();

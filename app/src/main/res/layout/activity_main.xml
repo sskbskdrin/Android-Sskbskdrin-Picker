@@ -2,34 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:orientation="vertical"
+              android:padding="20dp">
 
-    <TextView
-        android:id="@+id/main_hello"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="onClick"
-        android:text="Hello World!"/>
-    <LinearLayout android:layout_width="match_parent"
-                  android:layout_height="200dp">
-        <cn.sskbskdrin.pickers.PickerNumberView android:id="@+id/main_picker_year"
-                                          android:layout_width="0dp"
-                                          android:layout_height="match_parent"
-                                          android:layout_weight="1"/>
+	<cn.sskbskdrin.pickers.DateTimePicker
+		android:id="@+id/main_date_time"
+		android:layout_width="match_parent"
+		android:layout_height="200dp"/>
 
-        <cn.sskbskdrin.pickers.PickerNumberView android:id="@+id/main_picker_month"
-                                          android:layout_width="0dp"
-                                          android:layout_height="match_parent"
-                                          android:layout_weight="1"/>
-
-        <cn.sskbskdrin.pickers.PickerNumberView android:id="@+id/main_picker_day"
-                                                android:layout_width="0dp"
-                                                android:layout_height="match_parent"
-                                                android:layout_weight="1"/>
-
-    </LinearLayout>
-    <cn.sskbskdrin.pickers.PickerView android:id="@+id/main_picker"
-                                      android:layout_width="match_parent"
-                                      android:layout_height="wrap_content"/>
+	<cn.sskbskdrin.pickers.PickerView
+		android:id="@+id/main_picker"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"/>
 
 </LinearLayout>
